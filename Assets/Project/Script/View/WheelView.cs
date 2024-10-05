@@ -75,11 +75,11 @@ public class WheelView : MonoBehaviourExtBind
         _nonStop = true;
         
         Path = new CPath()
-          .EasingLinear(3, 0, 2, (f) =>
+          .EasingLinear(3, 0, 1, (f) =>
           {
               for (int i = 0; i < _elementInWheel.Length; i++)
               {
-                  _elementInWheel[i].transform.localPosition = Vector2.MoveTowards(_elementInWheel[i].transform.localPosition, _elementInWheel[i].transform.localPosition + transform.up, (_speedWheel * (f)) * Time.deltaTime); ;
+                  _elementInWheel[i].transform.localPosition = Vector2.MoveTowards(_elementInWheel[i].transform.localPosition, _elementInWheel[i].transform.localPosition + transform.up*(_speedWheel * (f)), (_speedWheel * (f)) * Time.deltaTime); ;
               }
 
           })
@@ -87,7 +87,7 @@ public class WheelView : MonoBehaviourExtBind
           {
               for (int i = 0; i < _elementInWheel.Length; i++)
               {
-                  _elementInWheel[i].transform.localPosition = Vector2.MoveTowards(_elementInWheel[i].transform.localPosition, _elementInWheel[i].transform.localPosition + transform.up, (_speedWheel ));
+                  _elementInWheel[i].transform.localPosition = Vector2.MoveTowards(_elementInWheel[i].transform.localPosition, _elementInWheel[i].transform.localPosition + transform.up * (_speedWheel ), (_speedWheel * Time.deltaTime));
               }
               if (_nonStop == false)
               {
@@ -102,15 +102,14 @@ public class WheelView : MonoBehaviourExtBind
         _nonStop = false;
         Path.StopPath();
         Path = new CPath();
-        Path.EasingLinear(_timeToStop , _speedWheel, 0, (f) =>
+        Path.EasingLinear(_timeToStop ,_speedWheel, 0, (f) =>
         {
             for (int i = 0; i < _elementInWheel.Length; i++)
             {
-               // float ts = Mathf.Lerp(_speedWheel, 0, f);
 
                 if (i == _needIndex)
                 {
-                    _elementInWheel[_needIndex].transform.localPosition = Vector2.Lerp(_elementInWheel[_needIndex].transform.localPosition, _center.localPosition, _speedWheel / f * Time.deltaTime);
+                    _elementInWheel[_needIndex].transform.localPosition = Vector2.Lerp(_elementInWheel[_needIndex].transform.localPosition, _center.localPosition, _speedWheel/ f * Time.deltaTime);
 
                 }
                 else
